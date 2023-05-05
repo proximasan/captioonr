@@ -33,6 +33,10 @@ class ImageCaptionGUI(ThemedTk):
 
         self.image_file_label = ttk.Label(self.content_frame, text="")
         self.image_file_label.grid(row=2, column=1)
+        if self.image_files:
+            self.image_file_label.config(text=self.truncate_filename(self.image_files[self.image_index]))
+
+
 
         self.folder_label = ttk.Label(self.content_frame, text="Folder:")
         self.folder_label.grid(row=0, column=0, sticky=E)
@@ -107,10 +111,15 @@ class ImageCaptionGUI(ThemedTk):
         self.next_button.grid(row=9, column=3)
 
 
-
     def show_done_message(self, button, original_text):
         button.config(text="Done!")
         self.after(1000, lambda: button.config(text=original_text))
+
+    def truncate_filename(self, filename, max_length=40):
+        if len(filename) <= max_length:
+            return filename
+        else:
+            return '...' + filename[-max_length+3:]
 
     def center_window(self):
         self.update_idletasks()
@@ -143,7 +152,7 @@ class ImageCaptionGUI(ThemedTk):
 
         self.img_tk = ImageTk.PhotoImage(img)
         self.canvas.create_image(0, 0, anchor=NW, image=self.img_tk)
-        self.image_file_label.config(text=os.path.basename(img_path))
+        self.image_file_label.config(text=self.truncate_filename(os.path.basename(img_path)))
 
         txt_path = self.get_txt_path(img_path)
         if os.path.exists(txt_path):
