@@ -1,7 +1,18 @@
 # captioonr
 a simple little python GUI to load a folder with images and caption them
 
-[<img src="https://github.com/proximasan/captioonr/blob/main/screenshot.jpg?raw=true">](https://github.com/proximasan/captioonr/blob/main/screenshot.jpg)
+---
+
+added a few more features:
+- backup all txt-files of the opened folder to another folder
+- find and remove
+- find and replace
+- bigger text box for the caption
+
+if you prefer the more minimal version you can use captioonr_s.py
+
+
+[<img src="https://github.com/proximasan/captioonr/blob/main/screenshot2.jpg?raw=true">](https://github.com/proximasan/captioonr/blob/main/screenshot2.jpg)
 
 ## how to use
 
