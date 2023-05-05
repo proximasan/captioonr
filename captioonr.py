@@ -10,7 +10,7 @@ class ImageCaptionGUI(ThemedTk):
     def __init__(self):
         super().__init__()
 
-        self.title("☆━━━━NO CAP━━━━☆")
+        self.title("☆━━━━CAPTIOONR━━━━☆")
 
         # Set the window size
         self.geometry("768x690")
@@ -73,6 +73,10 @@ class ImageCaptionGUI(ThemedTk):
         self.create_caption_button = ttk.Button(self.content_frame, text="Create txt-files for each img", command=self.create_caption_files)
         self.create_caption_button.grid(row=5, column=0, columnspan=3)
 
+    def show_done_message(self, button, original_text):
+        button.config(text="Done!")
+        self.after(1000, lambda: button.config(text=original_text))
+
     def center_window(self):
         self.update_idletasks()
         width = self.winfo_width()
@@ -133,11 +137,18 @@ class ImageCaptionGUI(ThemedTk):
         self.show_image()
 
     def create_caption_files(self):
+        self.create_caption_button.config(text="Working...")
+        self.update_idletasks()
+
         for img_path in self.image_files:
             txt_path = self.get_txt_path(img_path)
             if not os.path.exists(txt_path):
                 with open(txt_path, 'w') as f:
                     f.write("")
+
+        self.show_done_message(self.create_caption_button, "Create txt-files for each img")
+
+
 
     def get_txt_path(self, img_path):
         base, ext = os.path.splitext(img_path)
@@ -150,8 +161,13 @@ class ImageCaptionGUI(ThemedTk):
         img_path = self.image_files[self.image_index]
         txt_path = self.get_txt_path(img_path)
 
+        self.save_button.config(text="Working...")
+        self.update_idletasks()
+
         with open(txt_path, 'w') as f:
             f.write(self.caption_text.get())
+
+        self.show_done_message(self.save_button, "Save this")
 
     def on_closing(self):
         self.save_caption()
@@ -175,10 +191,18 @@ class ImageCaptionGUI(ThemedTk):
                     f.write(new_content)
 
     def prepend_to_all(self):
+        self.prepend_button.config(text="Working...")
+        self.update_idletasks()
+
         self.modify_all_files('prepend')
+        self.show_done_message(self.prepend_button, "Prepend")
 
     def append_to_all(self):
+        self.append_button.config(text="Working...")
+        self.update_idletasks()
+
         self.modify_all_files('append')
+        self.show_done_message(self.append_button, "Append")
 
 if __name__ == "__main__": 
     gui = ImageCaptionGUI() 
