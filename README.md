@@ -7,6 +7,7 @@ added a few more features:
 - backup all txt-files of the opened folder to another folder
 - find and remove
 - find and replace
+- removes and replaces for all txt-files btw!
 - bigger text box for the caption
 
 if you prefer the more minimal version you can use captioonr_s.py
