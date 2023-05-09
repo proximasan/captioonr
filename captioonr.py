@@ -36,7 +36,15 @@ class ImageCaptionGUI(ThemedTk):
         if self.image_files:
             self.image_file_label.config(text=self.truncate_filename(self.image_files[self.image_index]))
 
+        self.auto_save_mode = BooleanVar()
 
+        # Bind arrow keys for navigation
+        self.bind('<Left>', lambda e: self.show_prev_image())
+        self.bind('<Right>', lambda e: self.show_next_image())
+
+        # Bind Command+S and Ctrl+S for saving
+        self.bind('<Command-s>', lambda e: self.save_and_show_done())
+        self.bind('<Control-s>', lambda e: self.save_and_show_done())
 
         self.folder_label = ttk.Label(self.content_frame, text="Folder:")
         self.folder_label.grid(row=0, column=0, sticky=E)
@@ -104,11 +112,18 @@ class ImageCaptionGUI(ThemedTk):
         self.create_caption_button = ttk.Button(self.content_frame, text="Create txt-file for each img", command=self.create_caption_files)
         self.create_caption_button.grid(row=9, column=1, sticky=W)
 
+        self.auto_save_check = ttk.Checkbutton(self.content_frame, text="Save when moving", variable=self.auto_save_mode)
+        self.auto_save_check.grid(row=9, column=1, sticky=E)
+
         self.prev_button = ttk.Button(self.content_frame, text="Previous", command=self.show_prev_image)
         self.prev_button.grid(row=9, column=2)
 
         self.next_button = ttk.Button(self.content_frame, text="Next", command=self.show_next_image)
         self.next_button.grid(row=9, column=3)
+
+    def save_and_show_done(self):
+        self.save_caption()
+        self.show_done_message(self.save_button, "Save this")
 
 
     def show_done_message(self, button, original_text):
@@ -196,6 +211,9 @@ class ImageCaptionGUI(ThemedTk):
         if not self.image_files:
             return
 
+        if self.auto_save_mode.get():  # If auto save mode is on, save the caption before navigating
+            self.save_caption()
+
         self.image_index -= 1
         if self.image_index < 0:
             self.image_index = len(self.image_files) - 1
@@ -206,11 +224,15 @@ class ImageCaptionGUI(ThemedTk):
         if not self.image_files:
             return
 
+        if self.auto_save_mode.get():  # If auto save mode is on, save the caption before navigating
+            self.save_caption()
+
         self.image_index += 1
         if self.image_index >= len(self.image_files):
             self.image_index = 0
 
         self.show_image()
+
 
     def create_caption_files(self):
         self.create_caption_button.config(text="Working...")
