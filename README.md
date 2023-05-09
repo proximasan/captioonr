@@ -4,6 +4,8 @@ a simple little python GUI to load a folder with images and caption them
 ---
 
 added a few more features:
+- you can navigate with the left and right arrow keys now
+- CMD+S or CTRL+S to save, or check "save when moving" to automatically save when... moving
 - backup all txt-files of the opened folder to another folder
 - find and remove
 - find and replace
