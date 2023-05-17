@@ -34,13 +34,13 @@ class ImageCaptionGUI(ThemedTk):
         self.image_on_canvas = None
         self.text_was_edited = False
 
-        self.image_file_label = ttk.Label(self.content_frame, text="")
-        self.image_file_label.grid(row=2, column=1, sticky=E, pady=(0, 5))
+        self.image_file_label = ttk.Label(self.content_frame, text=" ", width=50)
+        self.image_file_label.grid(row=2, column=1, sticky=W, pady=(0, 5))
         if self.image_files:
             self.image_file_label.config(text=self.truncate_filename(self.image_files[self.image_index]))
 
-        self.image_count_label = ttk.Label(self.content_frame, text="")
-        self.image_count_label.grid(row=2, column=2, pady=(0, 5))
+        self.image_count_label = ttk.Label(self.content_frame, text=" ", width=20)
+        self.image_count_label.grid(row=2, column=1, sticky=E, pady=(0, 5))
 
         self.auto_save_mode = BooleanVar()
 
@@ -141,7 +141,7 @@ class ImageCaptionGUI(ThemedTk):
         button.config(text="Done!")
         self.after(1000, lambda: button.config(text=original_text))
 
-    def truncate_filename(self, filename, max_length=40):
+    def truncate_filename(self, filename, max_length=35):
         if len(filename) <= max_length:
             return filename
         else:
@@ -187,9 +187,10 @@ class ImageCaptionGUI(ThemedTk):
         # Delete the old image
         if self.image_on_canvas is not None:
             self.canvas.delete(self.image_on_canvas)
-        
+            
         # Create a new image and store its id
         self.image_on_canvas = self.canvas.create_image(x, y, anchor=NW, image=self.img_tk)
+
 
         self.image_file_label.config(text=self.truncate_filename(os.path.basename(img_path)))
         self.image_count_label.config(text=f"[image {self.image_index + 1} of {len(self.image_files)}]")
