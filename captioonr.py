@@ -7,6 +7,7 @@ from tkinter import filedialog
 from tkinter import *
 from PIL import Image, ImageTk
 from datetime import datetime
+from bpe import get_token
 
 class ImageCaptionGUI(ThemedTk):
     def __init__(self):
@@ -104,8 +105,12 @@ class ImageCaptionGUI(ThemedTk):
         self.caption_entry.configure(insertbackground="white", highlightthickness=1, relief=SOLID, padx=5, pady=5)
         self.caption_entry.grid(row=6, column=1, sticky=W, pady=15)
 
+        self.token_count_var = StringVar()
+        self.token_count_label = ttk.Label(self.content_frame, textvariable=self.token_count_var)
+        self.token_count_label.grid(row=6, column=2, sticky=W, pady=15)
+
         self.save_button = ttk.Button(self.content_frame, text="Save this", command=self.save_caption)
-        self.save_button.grid(row=6, column=2, pady=15)
+        self.save_button.grid(row=6, column=3, pady=15)
 
         #self.caption_padding = ttk.Label(self.content_frame, text="", padding=(0, 10))
         #self.caption_padding.grid(row=8, column=0)
@@ -199,7 +204,12 @@ class ImageCaptionGUI(ThemedTk):
         if os.path.exists(txt_path):
             with open(txt_path, 'r') as f:
                 self.caption_entry.delete("1.0", "end") # clear existing caption text
-                self.caption_entry.insert("1.0", f.read()) # insert new caption text from file
+                caption = f.read() # read new caption text from file
+                self.caption_entry.insert("1.0", caption) # insert new caption text into the GUI
+                tokens = get_token(caption) # tokenize the caption
+                token_count = len(tokens) # count the tokens
+                self.token_count_var.set(f"Token count: {token_count}") # set the token count
+
         else:
             self.caption_entry.delete("1.0", "end") # clear caption text if file doesn't exist
 
