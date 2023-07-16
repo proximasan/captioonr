@@ -209,9 +209,17 @@ class ImageCaptionGUI(ThemedTk):
                 tokens = get_token(caption) # tokenize the caption
                 token_count = len(tokens) # count the tokens
                 self.token_count_var.set(f"Token count: {token_count}") # set the token count
-
+                # In the __init__ method, bind the <KeyRelease> event to self.update_token_count
+                self.caption_entry.bind('<KeyRelease>', self.update_token_count)
         else:
             self.caption_entry.delete("1.0", "end") # clear caption text if file doesn't exist
+
+    # Add this method to the ImageCaptionGUI class
+    def update_token_count(self, event):
+        caption = self.caption_entry.get("1.0", "end-1c") # get the caption text from the textbox
+        tokens = get_token(caption) # tokenize the caption
+        token_count = len(tokens) # count the tokens
+        self.token_count_var.set(f"Token count: {token_count}") # set the token count
 
     def remove_from_all(self):
         modify_str = self.find_entry.get()
