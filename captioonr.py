@@ -330,7 +330,6 @@ class ImageCaptionGUI(ThemedTk):
         self.show_done_message(self.save_button, "Save this")
 
     def on_closing(self):
-        self.save_caption()
         self.destroy()
 
     def modify_all_files(self, action):
