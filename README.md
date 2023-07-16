@@ -4,6 +4,7 @@ a simple little python GUI to load a folder with images and caption them
 ---
 
 added a few more features:
+- displays token count now thx to code from [streamlit_clip_counter](https://github.com/kawaiiprompter/streamlit_clip_counter/tree/main)
 - added a slider so it's more easy to jump between bigger amounts of images (note that autosave only saves the caption if you use the Previous/Next buttons or the arrow keys, not when you move with the slider)
 - you can navigate with the left and right arrow keys now
 - CMD+S or CTRL+S to save, or check "save when moving" to automatically save when... moving
